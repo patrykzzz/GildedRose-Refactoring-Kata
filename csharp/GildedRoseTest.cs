@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
+using ApprovalUtilities.Utilities;
 
 namespace csharp
 {
@@ -7,12 +9,26 @@ namespace csharp
     public class GildedRoseTest
     {
         [Test]
-        public void foo()
+        public void UpdateQuality_ForAgedBrieAfter30Days_QualityShouldBeEqualTo30()
         {
-            IList<Item> Items = new List<Item> { new Item { Name = "foo", SellIn = 0, Quality = 0 } };
-            GildedRose app = new GildedRose(Items);
-            app.UpdateQuality();
-            Assert.AreEqual("fixme", Items[0].Name);
+            // Arrange
+            var agedBrie = new Item
+            {
+                Name = "Aged Brie",
+                SellIn = 0,
+                Quality = 0
+            };
+            var items = new List<Item>
+            {
+                agedBrie
+            };
+            var app = new GildedRose(items);
+
+            // Act
+            Enumerable.Range(0, 30).ForEach(x => app.UpdateQuality());
+
+            // Assert
+            Assert.AreEqual(30, agedBrie.Quality);
         }
     }
 }
