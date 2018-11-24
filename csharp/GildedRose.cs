@@ -21,6 +21,13 @@ namespace csharp
                         if (!IsItemSulfuras(item))
                         {
                             item.Quality = item.Quality - 1;
+                            if(item.Name == "Conjured Mana Cake")
+                            {
+                                if (item.Quality > 0)
+                                {
+                                    item.Quality = item.Quality - 1;
+                                }
+                            }
                         }
                     }
                 }
