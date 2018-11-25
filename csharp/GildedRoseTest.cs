@@ -9,7 +9,31 @@ namespace csharp
     public class GildedRoseTest
     {
         [Test]
-        public void UpdateQuality_ForAgedBrieAfter30Days_QualityShouldBeEqualTo30()
+        public void UpdateQuality_ForAgedBrieAfter1DaysAndSellInEquals1_QualityShouldIncreaseBy1()
+        {
+            // Arrange
+            var agedBrie = new Item
+            {
+                Name = "Aged Brie",
+                SellIn = 1,
+                Quality = 0
+            };
+            var items = new List<Item>
+            {
+                agedBrie
+            };
+
+            var app = new GildedRose(items);
+
+            // Act
+            app.UpdateQuality();
+
+            // Assert
+            Assert.AreEqual(1, agedBrie.Quality);
+        }
+
+        [Test]
+        public void UpdateQuality_ForAgedBrieAfter1DaysAndSellInEquals0_QualityShouldIncreaseBy2()
         {
             // Arrange
             var agedBrie = new Item
@@ -22,13 +46,38 @@ namespace csharp
             {
                 agedBrie
             };
+
             var app = new GildedRose(items);
 
             // Act
-            Enumerable.Range(0, 30).ForEach(x => app.UpdateQuality());
+            app.UpdateQuality();
 
             // Assert
-            Assert.AreEqual(30, agedBrie.Quality);
+            Assert.AreEqual(2, agedBrie.Quality);
+        }
+
+        [Test]
+        public void UpdateQuality_ForAgedBrieAfter1DaysAndQuantityEquals50_QualityShouldNotIncrease()
+        {
+            // Arrange
+            var agedBrie = new Item
+            {
+                Name = "Aged Brie",
+                SellIn = 0,
+                Quality = 50
+            };
+            var items = new List<Item>
+            {
+                agedBrie
+            };
+
+            var app = new GildedRose(items);
+
+            // Act
+            app.UpdateQuality();
+
+            // Assert
+            Assert.AreEqual(50, agedBrie.Quality);
         }
     }
 }
