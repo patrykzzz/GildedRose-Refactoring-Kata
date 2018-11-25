@@ -354,5 +354,29 @@ namespace csharp
             // Assert
             Assert.AreEqual(8, backstagePassItem.Quality);
         }
+
+        [Test]
+        public void UpdateQuality_ForConjuredItemAfter1DayAndSellInLessThen0AndQuantityIsEqual3_QualityShouldEquals0()
+        {
+            var backstagePassItem = new Item
+            {
+                Name = "Conjured Mana Cake",
+                SellIn = -1,
+                Quality = 3
+            };
+
+            var items = new List<Item>
+            {
+                backstagePassItem
+            };
+
+            var app = new GildedRose(items);
+
+            // Act
+            app.UpdateQuality();
+
+            // Assert
+            Assert.AreEqual(0, backstagePassItem.Quality);
+        }
     }
 }
