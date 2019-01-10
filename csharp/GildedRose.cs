@@ -18,11 +18,11 @@ namespace csharp
                 .ToList();
 
             regularItems.ForEach(DecreaseItemQuality);
-            /*regularItems.Where(x => x.SellIn < 0)
+            regularItems.Where(x => x.SellIn <= 0)
                 .ToList()
-                .ForEach(DecreaseItemQuality);*/
+                .ForEach(DecreaseItemQuality);
 
-            regularItems.Where(x => IsItemConjured(x))
+            regularItems.Where(IsItemConjured)
                 .ToList()
                 .ForEach(DecreaseItemQuality);
 
@@ -40,11 +40,10 @@ namespace csharp
 
             backstagePassesWithHighSellIn.ForEach(IncreaseItemQuality);
 
-            var backstagePassesWithLowSellIn = backstagePasses
-                .Where(x => x.SellIn < 6 && x.Quality < 50)
-                .ToList();
-
-            backstagePassesWithLowSellIn.ForEach(IncreaseItemQuality);
+            backstagePassesWithHighSellIn
+                .Where(x => x.SellIn < 6)
+                .ToList()
+                .ForEach(IncreaseItemQuality);
 
             Items.Where(x => !IsItemSulfuras(x))
                 .ToList()
@@ -57,12 +56,10 @@ namespace csharp
                 .ToList()
                 .ForEach(DecreaseItemQuality);
 
-            itemsWithNegativeSellIn.Where(x => !IsItemAgedBrie(x) && !IsItemBackstagePass(x) && !IsItemSulfuras(x) && x.Quality > 0)
+            itemsWithNegativeSellIn.Where(IsItemBackstagePass)
                 .ToList()
-                .ForEach(DecreaseItemQuality);
-
-            itemsWithNegativeSellIn.Where(IsItemBackstagePass).ToList()
                 .ForEach(x => x.Quality = 0);
+
             itemsWithNegativeSellIn.Where(IsItemAgedBrie)
                 .Where(x => x.Quality < 50)
                 .ToList()
